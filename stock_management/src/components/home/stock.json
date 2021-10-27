@@ -1,0 +1,89 @@
+[
+  {
+    "name": "KitKat",
+    "items": [40, 35, 75, 80, 120, 5, 200],
+    "price": 18.5,
+    "days_of_discount": [
+      {
+        "day": "Saturday",
+        "discount_percentage": 40
+      },
+      {
+        "day": "Thursday",
+        "discount_percentage": 25
+      }
+    ],
+    "promo_codes": [
+      {
+        "code": "KitKat1",
+        "discount_amount": 15
+      },
+      {
+        "code": "KitKat2",
+        "discount_amount": 20
+      },
+      {
+        "code": "KitKat3",
+        "discount_amount": 50
+      }
+    ]
+  },
+  {
+    "name": "Snickers",
+    "items": [15, 30, 50, 70, 20, 100, 10],
+    "price": 15,
+    "days_of_discount": [
+      {
+        "day": "Friday",
+        "discount_percentage": 15
+      },
+      {
+        "day": "Tuesday",
+        "discount_percentage": 70
+      }
+    ],
+    "promo_codes": [
+      {
+        "code": "Snickers1",
+        "discount_amount": 15
+      },
+      {
+        "code": "Snickers2",
+        "discount_amount": 20
+      },
+      {
+        "code": "Snickers3",
+        "discount_amount": 50
+      }
+    ]
+  },
+  {
+    "name": "Tex",
+    "items": [40, 20, 50, 45, 300, 110, 170],
+    "price": 12,
+    "days_of_discount": [
+      {
+        "day": "Wednesday",
+        "discount_percentage": 50
+      },
+      {
+        "day": "Monday",
+        "discount_percentage": 10
+      }
+    ],
+    "promo_codes": [
+      {
+        "code": "Tex1",
+        "discount_amount": 15
+      },
+      {
+        "code": "Tex2",
+        "discount_amount": 20
+      },
+      {
+        "code": "Tex3",
+        "discount_amount": 50
+      }
+    ]
+  }
+]

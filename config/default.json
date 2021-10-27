@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb+srv://JunaidSalie:HDbDknnmQXPhEuOf@stockmanagement.rjbqx.mongodb.net/stock?retryWrites=true&w=majority",
+  "jwtSecret": "secret"
+}
