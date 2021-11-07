@@ -5,17 +5,24 @@ const UserStockSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "users",
   },
-  name: {
-    type: String,
-    required: true,
-  },
-  items: {
-    type: Number,
-    required: true,
-  },
-  price: {
-    type: Number,
-    required: true,
+
+  stock: {
+    type: [
+      {
+        name: {
+          type: String,
+          required: true,
+        },
+        items: {
+          type: Number,
+          required: true,
+        },
+        price: {
+          type: Number,
+          required: true,
+        },
+      },
+    ],
   },
 });
 

@@ -1,9 +1,13 @@
-import Home from "./components/home/Home";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { store, persistor } from "./store";
 
 import setAuthToken from "./utils/setAuthToken";
 
-import { Provider } from "react-redux";
-import store from "./store";
+import Home from "./components/home/Home";
+
+// styles
+import "./styles.css";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -12,7 +16,9 @@ if (localStorage.token) {
 function App() {
   return (
     <Provider store={store}>
-      <Home />
+      <PersistGate persistor={persistor}>
+        <Home />
+      </PersistGate>
     </Provider>
   );
 }

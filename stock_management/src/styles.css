@@ -1,0 +1,77 @@
+/* ------------------------
+    Reveal right animation
+   ------------------------
+*/
+
+/*
+.reveal-right > .nav-link {
+  transform: translateX(0%);
+  overflow: hidden;
+  animation: revealRight 2s ease forwards;
+}
+
+.reveal-right > .nav-link {
+  overflow-x: hidden;
+  transform: translateX(-200%);
+  animation: revealRight 2s ease forwards;
+}
+
+@keyframes revealRight {
+  to {
+    transform: translateX(0);
+  }
+}
+*/
+
+/* ------------------------
+    Reveal left animation
+   ------------------------
+*/
+/*
+.reveal-left > .nav-link {
+  transform: translateX(-100%);
+  overflow: hidden;
+  animation: revealLeft 0.5s ease forwards;
+}
+
+.reveal-left > .nav-link {
+  transform: translateX(200%);
+  animation: revealLeft 0.5s ease forwards;
+}
+
+@keyframes revealLeft {
+  to {
+    transform: translateX(0);
+  }
+}
+*/
+
+.reveal-left {
+  animation: revealLeft 0.3s ease;
+}
+
+@keyframes revealLeft {
+  from {
+    transform: scaleX(0);
+    transform-origin: right center;
+  }
+  to {
+    transform: scaleX(1);
+    transform-origin: right center;
+  }
+}
+
+.reveal-right {
+  animation: revealRight 0.5s ease;
+}
+
+@keyframes revealRight {
+  from {
+    transform: scaleX(1);
+    transform-origin: right center;
+  }
+  to {
+    transform: scaleX(0);
+    transform-origin: right center;
+  }
+}

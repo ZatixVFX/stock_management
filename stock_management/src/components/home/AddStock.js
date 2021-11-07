@@ -18,24 +18,28 @@ const AddStock = () => {
     setProduct(e.target.value);
   };
 
+  // Display amount of items by day
   let items = stock[product].items.filter(
     (n, index) => date.getDay() === index && n
   );
 
+  // Check if current day has a discount
   let current_day = days[date.getDay()];
   let get_discount = stock[product].days_of_discount.filter(
     (n) => n.day === current_day && n
   );
 
+  // Get price
   let price = stock[product].price * items;
 
+  // Display final price
   let final_price =
     get_discount.length === 0
       ? price
       : (get_discount[0].discount_percentage / 100) * price;
 
   return (
-    <div className="col">
+    <div className="col align-self-center">
       <form action="">
         <div className="mb3">
           <label htmlFor="" className="form-label">
@@ -55,7 +59,6 @@ const AddStock = () => {
           </select>
         </div>
         <div className="mb3">
-          {" "}
           <label htmlFor="" className="form-label">
             Items recieved
           </label>
@@ -69,7 +72,6 @@ const AddStock = () => {
           />
         </div>
         <div className="mb3">
-          {" "}
           <label htmlFor="" className="form-label">
             Price per Item Recieved
           </label>
@@ -82,6 +84,9 @@ const AddStock = () => {
             disabled
           />
         </div>
+        <button type="submit" className="btn btn-primary mt-1">
+          Add stock
+        </button>
       </form>
     </div>
   );

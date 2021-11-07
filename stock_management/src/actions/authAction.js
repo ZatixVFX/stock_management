@@ -19,13 +19,15 @@ export const loadUser = () => async (dispatch) => {
   }
 
   try {
-    const res = await axios.get("/api/auth");
+    const res = await axios.get("http://localhost:5000/api/auth");
 
     dispatch({
       type: USER_LOADED,
       payload: res.data,
     });
+    console.log(res.data);
   } catch (err) {
+    console.log(err);
     dispatch({
       type: AUTH_ERROR,
     });
@@ -40,16 +42,24 @@ export const register = (formData) => async (dispatch) => {
     },
   };
   try {
-    const res = await axios.post("/api/users", formData, config);
+    const res = await axios.post(
+      "http://localhost:5000/api/users",
+      formData,
+      config
+    );
 
     dispatch({
       type: REGISTER_SUCCESS,
       payload: res.data,
     });
+
+    loadUser();
   } catch (err) {
     dispatch({
       type: REGISTER_FAIL,
-      payload: err.response.data.msg,
+      payload: err.response.data.msg
+        ? err.response.data.msg
+        : err.response.data.errors[0].msg,
     });
   }
 };
@@ -62,13 +72,19 @@ export const login = (formData) => async (dispatch) => {
     },
   };
   try {
-    const res = await axios.post("/api/auth", formData, config);
+    const res = await axios.post(
+      "http://localhost:5000/api/auth",
+      formData,
+      config
+    );
 
     dispatch({
       type: LOGIN_SUCCESS,
       payload: res.data,
     });
+    loadUser();
   } catch (err) {
+    console.log(err.response.data.msg);
     dispatch({
       type: LOGIN_FAIL,
       payload: err.response.data.msg,

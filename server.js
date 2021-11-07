@@ -4,6 +4,7 @@ const cors = require("cors");
 const path = require("path");
 
 const app = express();
+app.use(cors());
 
 // Connect Database
 connectDB();
@@ -19,4 +20,3 @@ app.use("/api/stock", require("./routes/stock"));
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
-app.use(cors());
