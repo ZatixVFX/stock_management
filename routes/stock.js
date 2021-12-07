@@ -5,6 +5,7 @@ const { check, validationResult } = require("express-validator");
 
 const Stock = require("../models/Stock");
 const UserStock = require("../models/UserStock");
+const { find } = require("../models/Stock");
 
 // @router GET api/stock
 // @desc Get product stock
@@ -18,6 +19,20 @@ router.get("/", async (req, res) => {
   try {
     const stock = await Stock.find();
     res.json(stock);
+  } catch (err) {
+    console.error(err.message), res.status(500).send("Server Error");
+  }
+});
+
+// @router GET api/stock
+// @desc Get user stock
+// @access Public
+router.get("/UserStock", auth, async (req, res) => {
+  try {
+    const get_UserStock = await UserStock.find({ "user.user_id": req.user.id });
+    get_UserStock
+      ? res.json(get_UserStock[0])
+      : res.json({ msg: "User stock not found" });
   } catch (err) {
     console.error(err.message), res.status(500).send("Server Error");
   }
@@ -44,16 +59,21 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, items, price } = req.body;
+    const { user_name, user_email, name, items, price } = req.body;
 
     try {
-      let getUserStock = await UserStock.find({ user: req.user.id });
+      let getUserStock = await UserStock.find({ "user.user_id": req.user.id });
 
       if (getUserStock.length > 0)
         res.status(401).json({ msg: "You already have stock collection" });
       else {
         const newStock = new UserStock({
-          user: req.user.id,
+          user: {
+            user_id: req.user.id,
+            name: user_name,
+            email: user_email,
+          },
+
           stock: [
             {
               name,
@@ -65,7 +85,7 @@ router.post(
 
         const stock = await newStock.save();
 
-        res.json(stock);
+        res.json({ msg: "Added stock", stock });
       }
     } catch (err) {
       console.error(err.message);
@@ -101,8 +121,8 @@ router.put(
       if (!userStock) {
         res.status(404).json({ msg: "No stock collection found" });
       } else if (userStock.stock.length >= 3) {
-        res.status(401).json({ msg: "Max stock array length is 3" });
-      } else if (userStock.user.toString() !== req.user.id) {
+        res.status(401).json({ msg: "Max product stock is 3" });
+      } else if (userStock.user.user_id.toString() !== req.user.id) {
         res.status(401).json({
           msg: "You are not authorized to add stock to this user account",
         });

@@ -2,8 +2,21 @@ const mongoose = require("mongoose");
 
 const UserStockSchema = mongoose.Schema({
   user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "users",
+    type: {
+      user_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users",
+      },
+      name: {
+        type: String,
+        required: true,
+      },
+      email: {
+        type: String,
+        required: true,
+      },
+    },
+    required: true,
   },
 
   stock: {
@@ -23,6 +36,7 @@ const UserStockSchema = mongoose.Schema({
         },
       },
     ],
+    required: true,
   },
 });
 

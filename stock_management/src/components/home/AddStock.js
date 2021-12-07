@@ -1,7 +1,26 @@
-import React, { useState } from "react";
-var stock = require("./stock.json");
+import React, { useState, useEffect, Fragment } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
-const AddStock = () => {
+import {
+  add_UserStock,
+  stockAlert,
+  clearErrors,
+} from "../../actions/stockAction";
+
+const AddStock = ({
+  stockAlert,
+  clearErrors,
+  add_UserStock,
+  auth: { user },
+  stock: {
+    available_stock,
+    stock_alert,
+    user_stock,
+    error,
+    successfullyAddedStock_msg,
+  },
+}) => {
   const date = new Date();
   const days = [
     "Sunday",
@@ -14,48 +33,89 @@ const AddStock = () => {
   ];
   const [product, setProduct] = useState(0);
 
-  const getProduct = (e) => {
-    setProduct(e.target.value);
-  };
-
   // Display amount of items by day
-  let items = stock[product].items.filter(
+  let num_of_items = available_stock[product].items.find(
     (n, index) => date.getDay() === index && n
   );
-
   // Check if current day has a discount
   let current_day = days[date.getDay()];
-  let get_discount = stock[product].days_of_discount.filter(
+  let get_discount = available_stock[product].days_of_discount.find(
     (n) => n.day === current_day && n
   );
 
   // Get price
-  let price = stock[product].price * items;
+  let get_price = available_stock[product].price * num_of_items;
 
-  // Display final price
-  let final_price =
-    get_discount.length === 0
-      ? price
-      : (get_discount[0].discount_percentage / 100) * price;
+  // Return final price
+  let final_price = !get_discount
+    ? get_price
+    : (get_discount.discount_percentage / 100) * get_price;
+
+  const onChange = (e) => {
+    setProduct(e.target.options.selectedIndex);
+  };
+
+  useEffect(() => {
+    if (error === "You already have stock collection") {
+      stockAlert(error, "danger");
+      clearErrors();
+    } else if (error === "Max product stock is 3") {
+      stockAlert(error, "danger");
+      clearErrors();
+    } else if (successfullyAddedStock_msg) {
+      stockAlert(successfullyAddedStock_msg, "success");
+      clearErrors();
+    }
+    // eslint-disable-next-line
+  }, [error]);
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    console.log(num_of_items, final_price);
+    let name = e.target.name.value;
+    let items = e.target.items.value;
+    let price = e.target.price.value;
+    add_UserStock(
+      {
+        user_name: user.name,
+        user_email: user.email,
+        name,
+        items,
+        price,
+      },
+      user_stock._id && user_stock._id
+    );
+  };
 
   return (
-    <div className="col align-self-center">
-      <form action="">
+    <div className="col">
+      <form action="" onSubmit={onSubmit}>
+        {stock_alert &&
+          stock_alert.map((alert, index) => (
+            <div
+              className={`alert alert-${alert.type} alert-dismissible`}
+              role="alert"
+              key={index}
+            >
+              <i class="fas fa-times"></i> {alert.msg}
+            </div>
+          ))}
         <div className="mb3">
           <label htmlFor="" className="form-label">
             Select a Product Code
           </label>
           <select
-            name="products"
+            name="name"
             id=""
             className="form-control"
-            onChange={getProduct}
+            onChange={onChange}
           >
-            {stock.map((item, index) => (
-              <option value={index} key={index}>
-                {item.name}
-              </option>
-            ))}
+            {available_stock &&
+              available_stock.map((item, index) => (
+                <option value={item.name} key={index}>
+                  {item.name}
+                </option>
+              ))}
           </select>
         </div>
         <div className="mb3">
@@ -64,8 +124,8 @@ const AddStock = () => {
           </label>
           <input
             type="text"
-            name="items_recieved"
-            value={items}
+            name="items"
+            value={num_of_items}
             id=""
             className="form-control"
             disabled
@@ -84,12 +144,31 @@ const AddStock = () => {
             disabled
           />
         </div>
-        <button type="submit" className="btn btn-primary mt-1">
-          Add stock
-        </button>
+        <input
+          type="submit"
+          className="btn btn-primary mt-1"
+          value="Add Stock"
+        />
       </form>
     </div>
   );
 };
 
-export default AddStock;
+AddStock.propTypes = {
+  stockAlert: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  stock: PropTypes.object.isRequired,
+  add_UserStock: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  stock: state.stock,
+});
+
+export default connect(mapStateToProps, {
+  add_UserStock,
+  clearErrors,
+  stockAlert,
+})(AddStock);

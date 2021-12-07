@@ -41,7 +41,6 @@ const LoginModal = ({
     e.preventDefault();
     if (email === "" || password === "") {
       setAlert("Please enter all fields", "warning");
-      console.log(alerts);
     } else {
       login({
         email,
@@ -70,15 +69,16 @@ const LoginModal = ({
             ></button>
           </div>
           <div class="modal-body">
-            {alerts.map((alert, index) => (
-              <div
-                className={`alert alert-${alert.type} alert-dismissible`}
-                role="alert"
-                key={index}
-              >
-                <i class="fas fa-times"></i> {alert.msg}
-              </div>
-            ))}
+            {alerts &&
+              alerts.map((alert, index) => (
+                <div
+                  className={`alert alert-${alert.type} alert-dismissible`}
+                  role="alert"
+                  key={index}
+                >
+                  <i class="fas fa-times"></i> {alert.msg}
+                </div>
+              ))}
             <form action="" onSubmit={onSubmit}>
               <div className="mb-2">
                 <label htmlFor="email">Email</label>

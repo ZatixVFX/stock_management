@@ -4,6 +4,7 @@ import storage from "redux-persist/lib/storage";
 
 import authReducer from "./authReducer";
 import alertsReducer from "./alertsReducer";
+import stockReducer from "./stockReducer";
 
 const persistConfig = {
   key: "root",
@@ -17,5 +18,8 @@ const rootReducer = combineReducers({
 
   // alerts
   alerts: alertsReducer,
+
+  // stock
+  stock: stockReducer,
 });
 export default persistReducer(persistConfig, rootReducer);
