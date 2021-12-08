@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
@@ -33,6 +33,8 @@ const AddStock = ({
   ];
   const [product, setProduct] = useState(0);
 
+  console.log(available_stock[product]);
+
   // Display amount of items by day
   let num_of_items = available_stock[product].items.find(
     (n, index) => date.getDay() === index && n
@@ -56,10 +58,10 @@ const AddStock = ({
   };
 
   useEffect(() => {
-    if (error === "You already have stock collection") {
+    if (error === "Max product stock is 3") {
       stockAlert(error, "danger");
       clearErrors();
-    } else if (error === "Max product stock is 3") {
+    } else if (error === "This product is already in your inventory") {
       stockAlert(error, "danger");
       clearErrors();
     } else if (successfullyAddedStock_msg) {
@@ -67,11 +69,10 @@ const AddStock = ({
       clearErrors();
     }
     // eslint-disable-next-line
-  }, [error]);
+  }, [error, successfullyAddedStock_msg]);
   const onSubmit = (e) => {
     e.preventDefault();
 
-    console.log(num_of_items, final_price);
     let name = e.target.name.value;
     let items = e.target.items.value;
     let price = e.target.price.value;

@@ -62,7 +62,7 @@ export const add_UserStock =
   (formData, stockCollection_ID = null) =>
   async (dispatch) => {
     try {
-      if (get_UserStock()) {
+      if (stockCollection_ID) {
         const res = await axios.put(
           `http://localhost:5000/api/stock/${stockCollection_ID}`,
           formData,

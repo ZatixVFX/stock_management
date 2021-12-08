@@ -118,6 +118,11 @@ router.put(
     const { name, items, price } = req.body;
     try {
       let userStock = await UserStock.findById(req.params.id);
+      let duplicate_prod = await UserStock.findOne({
+        _id: req.params.id,
+        stock: { $elemMatch: { name: name } },
+      });
+
       if (!userStock) {
         res.status(404).json({ msg: "No stock collection found" });
       } else if (userStock.stock.length >= 3) {
@@ -126,6 +131,10 @@ router.put(
         res.status(401).json({
           msg: "You are not authorized to add stock to this user account",
         });
+      } else if (duplicate_prod) {
+        res
+          .status(401)
+          .json({ msg: "This product is already in your inventory" });
       } else {
         let newStock = {
           name,
@@ -156,7 +165,7 @@ router.delete("/:id", auth, async (req, res) => {
     });
 
     if (stock.length > 0) {
-      if (stock[0].user.toString() !== req.user.id) {
+      if (stock[0].user.user_id.toString() !== req.user.id) {
         res
           .status(401)
           .json({ msg: "You are not authorized to delete this user stock" });

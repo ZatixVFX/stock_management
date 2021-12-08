@@ -16,12 +16,15 @@ const Home = ({
   get_stock,
   get_UserStock,
   stock: { loading, user_stock, error },
+  auth: { isAuthenticated },
 }) => {
   useEffect(() => {
     get_stock();
-    get_UserStock();
+    if (isAuthenticated) {
+      get_UserStock();
+    }
     // eslint-disable-next-line
-  }, []);
+  }, [isAuthenticated]);
   return (
     <Fragment>
       <Navbar />
@@ -40,7 +43,7 @@ const Home = ({
             </div>
           ) : (
             <Fragment>
-              <AddStock />
+              {get_stock && <AddStock />}
               {user_stock && <RemoveStock />}
             </Fragment>
           )}
@@ -54,10 +57,12 @@ Home.propTypes = {
   get_stock: PropTypes.func.isRequired,
   get_UserStock: PropTypes.func.isRequired,
   stock: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   stock: state.stock,
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, { get_stock, get_UserStock })(Home);

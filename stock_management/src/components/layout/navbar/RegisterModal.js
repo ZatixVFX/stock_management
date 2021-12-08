@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -59,32 +58,32 @@ const RegisterModal = ({
 
   return (
     <div
-      class="modal fade"
+      className="modal fade"
       tabIndex="-1"
       id="Register"
       aria-labelledby="RegisterLabel"
       aria-hidden="true"
       role="dialog"
     >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Register</h5>
+      <div className="modal-dialog" role="document">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title">Register</h5>
             <button
               type="button"
-              class="btn-close"
+              className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">
+          <div className="modal-body">
             {alerts.map((alert, index) => (
               <div
                 className={`alert alert-${alert.type} alert-dismissible`}
                 role="alert"
                 key={index}
               >
-                <i class="fas fa-times"></i> {alert.msg}
+                <i className="fas fa-times"></i> {alert.msg}
               </div>
             ))}
             <form onSubmit={onSubmit}>
@@ -128,7 +127,7 @@ const RegisterModal = ({
                   className="form-control"
                 />
               </div>
-              <button type="submit" class="btn btn-primary">
+              <button type="submit" className="btn btn-primary">
                 Register
               </button>
             </form>

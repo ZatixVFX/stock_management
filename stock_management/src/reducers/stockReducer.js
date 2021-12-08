@@ -58,6 +58,7 @@ export default function stockReducer(state = initialstate, action) {
       return {
         ...state,
         error: null,
+        successfullyAddedStock_msg: null,
       };
     default:
       return state;

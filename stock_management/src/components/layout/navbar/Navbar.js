@@ -1,17 +1,15 @@
-import React, { useState, Fragment } from "react";
+import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import { logout } from "../../../actions/authAction";
+import { showModal } from "../../../actions/modalAction";
 
-const Navbar = ({ logout, auth: { isAuthenticated, user } }) => {
-  const [showSign_in, setShowSign_in] = useState(false);
-
+const Navbar = ({ logout, showModal, auth: { isAuthenticated, user } }) => {
   const buttonStyle = {
     backgroundColor: "transparent",
     border: "0px",
   };
-
   return (
     <nav className={`navbar navbar-expand-lg navbar-fixed-top`} id="Navbar">
       <div className="container-fluid">
@@ -62,6 +60,7 @@ const Navbar = ({ logout, auth: { isAuthenticated, user } }) => {
                     className="nav-link"
                     data-bs-toggle="modal"
                     data-bs-target="#Login"
+                    onClick={() => showModal()}
                   >
                     Sign in
                   </button>
@@ -77,9 +76,10 @@ const Navbar = ({ logout, auth: { isAuthenticated, user } }) => {
 
 Navbar.propTypes = {
   logout: PropTypes.func.isRequired,
+  showModal: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { logout })(Navbar);
+export default connect(mapStateToProps, { logout, showModal })(Navbar);
