@@ -90,7 +90,9 @@ export const login = (formData) => async (dispatch) => {
 };
 
 // Logout
-export const logout = () => (dispatch) => dispatch({ type: LOGOUT });
+export const logout = () => (dispatch) => {
+  dispatch({ type: LOGOUT });
+};
 
 // Clear Errors
 export const clearErrors = () => (dispatch) => dispatch({ type: CLEAR_ERRORS });

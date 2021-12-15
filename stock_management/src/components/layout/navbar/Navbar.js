@@ -1,15 +1,29 @@
-import React, { Fragment } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import { logout } from "../../../actions/authAction";
+import { clearUserStock } from "../../../actions/stockAction";
 import { showModal } from "../../../actions/modalAction";
 
-const Navbar = ({ logout, showModal, auth: { isAuthenticated, user } }) => {
+const Navbar = ({
+  logout,
+  clearUserStock,
+  showModal,
+  auth: { isAuthenticated, user },
+}) => {
+  const [user_name, setUserName] = useState("");
   const buttonStyle = {
     backgroundColor: "transparent",
     border: "0px",
   };
+  useEffect(() => {
+    if (user) {
+      setUserName(user.name);
+    }
+
+    // eslint-disable-next-line
+  }, [user]);
   return (
     <nav className={`navbar navbar-expand-lg navbar-fixed-top`} id="Navbar">
       <div className="container-fluid">
@@ -27,13 +41,16 @@ const Navbar = ({ logout, showModal, auth: { isAuthenticated, user } }) => {
             {isAuthenticated ? (
               <Fragment>
                 <li className="nav-item">
-                  <p className="my-2">Welcome {user && user.name}</p>
+                  <p className="my-2">Welcome {user_name}</p>
                 </li>
                 <li className="nav-item">
                   <button
                     type="button"
                     style={buttonStyle}
-                    onClick={() => logout()}
+                    onClick={() => {
+                      clearUserStock();
+                      logout();
+                    }}
                     className="nav-link"
                   >
                     Logout
@@ -76,10 +93,13 @@ const Navbar = ({ logout, showModal, auth: { isAuthenticated, user } }) => {
 
 Navbar.propTypes = {
   logout: PropTypes.func.isRequired,
+  clearUserStock: PropTypes.func.isRequired,
   showModal: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { logout, showModal })(Navbar);
+export default connect(mapStateToProps, { logout, clearUserStock, showModal })(
+  Navbar
+);

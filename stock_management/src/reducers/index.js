@@ -10,7 +10,7 @@ import stockReducer from "./stockReducer";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth"],
+  whitelist: ["auth", "stock"],
 };
 
 const rootReducer = combineReducers({

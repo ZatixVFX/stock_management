@@ -30,6 +30,7 @@ export const STOCK_ERROR = "STOCK_ERROR";
 export const GET_USERSTOCK = "GET_USERSTOCK";
 export const ADD_USERSTOCK = "ADD_USERSTOCK";
 export const DEL_USERSTOCK = "DEL_USERSTOCK";
+export const CLEAR_USERSTOCK = "CLEAR_USERSTOCK";
 
 // Modal types
 export const SHOW_MODAL = "SHOW_MODAL";

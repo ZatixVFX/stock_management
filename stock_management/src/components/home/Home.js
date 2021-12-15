@@ -7,6 +7,7 @@ import RegisterModal from "../layout/navbar/RegisterModal";
 import LoginModal from "../layout/navbar/LoginModal";
 import AddStock from "./AddStock";
 import RemoveStock from "./RemoveStock";
+import StockLevel from "./StockLevel";
 
 import { get_stock, get_UserStock } from "../../actions/stockAction";
 
@@ -15,7 +16,7 @@ import Loading from "../../resources/Images/loading.gif";
 const Home = ({
   get_stock,
   get_UserStock,
-  stock: { loading, user_stock, error },
+  stock: { loading, user_stock },
   auth: { isAuthenticated },
 }) => {
   useEffect(() => {
@@ -43,7 +44,7 @@ const Home = ({
             </div>
           ) : (
             <Fragment>
-              {get_stock && <AddStock />}
+              <AddStock />
               {user_stock && <RemoveStock />}
             </Fragment>
           )}

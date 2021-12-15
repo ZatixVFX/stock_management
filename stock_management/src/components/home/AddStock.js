@@ -33,8 +33,6 @@ const AddStock = ({
   ];
   const [product, setProduct] = useState(0);
 
-  console.log(available_stock[product]);
-
   // Display amount of items by day
   let num_of_items = available_stock[product].items.find(
     (n, index) => date.getDay() === index && n
@@ -84,7 +82,7 @@ const AddStock = ({
         items,
         price,
       },
-      user_stock._id && user_stock._id
+      user_stock._id ? user_stock._id : null
     );
   };
 

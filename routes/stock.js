@@ -29,10 +29,12 @@ router.get("/", async (req, res) => {
 // @access Public
 router.get("/UserStock", auth, async (req, res) => {
   try {
-    const get_UserStock = await UserStock.find({ "user.user_id": req.user.id });
+    const get_UserStock = await UserStock.findOne({
+      "user.user_id": req.user.id,
+    });
     get_UserStock
-      ? res.json(get_UserStock[0])
-      : res.json({ msg: "User stock not found" });
+      ? res.json(get_UserStock)
+      : res.status(401).json({ msg: "User stock not found" });
   } catch (err) {
     console.error(err.message), res.status(500).send("Server Error");
   }

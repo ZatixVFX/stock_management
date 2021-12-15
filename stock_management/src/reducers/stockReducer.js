@@ -3,6 +3,7 @@ import {
   GET_USERSTOCK,
   ADD_USERSTOCK,
   DEL_USERSTOCK,
+  CLEAR_USERSTOCK,
   STOCK_ERROR,
   CLEAR_ERRORS,
   STOCK_ALERT,
@@ -36,6 +37,11 @@ export default function stockReducer(state = initialstate, action) {
       return {
         ...state,
         successfullyAddedStock_msg: action.payload,
+      };
+    case CLEAR_USERSTOCK:
+      return {
+        ...state,
+        user_stock: null,
       };
     case STOCK_ALERT:
       return {

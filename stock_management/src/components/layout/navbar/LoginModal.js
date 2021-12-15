@@ -4,19 +4,20 @@ import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 
 import { setAlert } from "../../../actions/alertAction";
-import { login, loadUser, clearErrors } from "../../../actions/authAction";
+import { login, clearErrors } from "../../../actions/authAction";
+import { get_UserStock } from "../../../actions/stockAction";
 import { hideModal } from "../../../actions/modalAction";
 
 import { Modal } from "react-bootstrap";
 
 const LoginModal = ({
   alerts,
+  get_UserStock,
   setAlert,
   hideModal,
   modal,
   auth: { isAuthenticated, error },
   login,
-  loadUser,
   clearErrors,
 }) => {
   const [user, setUser] = useState({
@@ -30,10 +31,18 @@ const LoginModal = ({
 
   useEffect(() => {
     if (isAuthenticated) {
-      loadUser();
+      setUser({
+        email: email,
+        password: "",
+      });
+      get_UserStock();
       hideModal();
+      history.push("/");
     }
     if (error === "Invalid Credentials") {
+      setAlert(error, "danger");
+      clearErrors();
+    } else if (error === "This email is not registered yet") {
       setAlert(error, "danger");
       clearErrors();
     }
@@ -102,10 +111,10 @@ const LoginModal = ({
 
 LoginModal.propTypes = {
   setAlert: PropTypes.func.isRequired,
+  get_UserStock: PropTypes.func.isRequired,
   modal: PropTypes.bool.isRequired,
   hideModal: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
-  loadUser: PropTypes.func.isRequired,
   clearErrors: PropTypes.func.isRequired,
 };
 
@@ -117,8 +126,8 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   setAlert,
+  get_UserStock,
   hideModal,
   login,
-  loadUser,
   clearErrors,
 })(LoginModal);

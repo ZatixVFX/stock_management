@@ -5,10 +5,11 @@ import {
   GET_USERSTOCK,
   ADD_USERSTOCK,
   DEL_USERSTOCK,
-  STOCK_ERROR,
-  CLEAR_ERRORS,
   STOCK_ALERT,
   RE_STOCK_ALERT,
+  CLEAR_USERSTOCK,
+  STOCK_ERROR,
+  CLEAR_ERRORS,
 } from "./types";
 
 import axios from "axios";
@@ -22,18 +23,14 @@ const config = {
 export const get_stock = () => async (dispatch) => {
   try {
     const res = await axios.get("http://localhost:5000/api/stock");
-    console.log(res.data);
 
     dispatch({
       type: GET_STOCK,
       payload: res.data,
     });
-    console.log(res.data);
   } catch (err) {
-    console.log(err.response);
     dispatch({
       type: STOCK_ERROR,
-      payload: err.response,
     });
   }
 };
@@ -49,11 +46,11 @@ export const get_UserStock = () => async (dispatch) => {
       type: GET_USERSTOCK,
       payload: res.data,
     });
-    console.log(res.data);
   } catch (err) {
     console.log(err.response);
     dispatch({
       type: STOCK_ERROR,
+      payload: err.response.data.msg,
     });
   }
 };
@@ -97,7 +94,7 @@ export const add_UserStock =
 
 export const del_UserStock = (stock_id) => async (dispatch) => {
   try {
-    const res = await axios.put(
+    const res = await axios.delete(
       `http://localhost:5000/api/stock/${stock_id}`,
       config
     );
@@ -133,6 +130,10 @@ export const stockAlert =
       timeout
     );
   };
+
+// Clear User stock
+export const clearUserStock = () => (dispatch) =>
+  dispatch({ type: CLEAR_USERSTOCK });
 
 // Clear Errors
 export const clearErrors = () => (dispatch) => dispatch({ type: CLEAR_ERRORS });
