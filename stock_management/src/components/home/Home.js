@@ -16,16 +16,17 @@ import Loading from "../../resources/Images/loading.gif";
 const Home = ({
   get_stock,
   get_UserStock,
-  stock: { loading, user_stock },
-  auth: { isAuthenticated },
+  stock: { loading },
+  user_stock,
+  auth: { token },
 }) => {
   useEffect(() => {
     get_stock();
-    if (isAuthenticated) {
+    if (token) {
       get_UserStock();
     }
     // eslint-disable-next-line
-  }, [isAuthenticated]);
+  }, [token]);
   return (
     <Fragment>
       <Navbar />
@@ -58,11 +59,13 @@ Home.propTypes = {
   get_stock: PropTypes.func.isRequired,
   get_UserStock: PropTypes.func.isRequired,
   stock: PropTypes.object.isRequired,
+  user_stock: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   stock: state.stock,
+  user_stock: state.user_stock,
   auth: state.auth,
 });
 

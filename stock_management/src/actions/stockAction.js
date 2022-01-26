@@ -1,4 +1,5 @@
 import { v4 as uuid } from "uuid";
+import setAuthToken from "../utils/setAuthToken";
 
 import {
   GET_STOCK,
@@ -13,12 +14,6 @@ import {
 } from "./types";
 
 import axios from "axios";
-
-const config = {
-  headers: {
-    "x-auth-token": localStorage.token,
-  },
-};
 
 export const get_stock = () => async (dispatch) => {
   try {
@@ -37,20 +32,20 @@ export const get_stock = () => async (dispatch) => {
 
 export const get_UserStock = () => async (dispatch) => {
   try {
-    const res = await axios.get(
-      "http://localhost:5000/api/stock/UserStock",
-      config
-    );
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+    const res = await axios.get("http://localhost:5000/api/stock/UserStock");
 
     dispatch({
       type: GET_USERSTOCK,
       payload: res.data,
     });
   } catch (err) {
-    console.log(err.response);
+    console.log(`Error: ${err.response.data.msg}`);
+    console.log(`Token: ${localStorage.token}`);
     dispatch({
       type: STOCK_ERROR,
-      payload: err.response.data.msg,
     });
   }
 };
@@ -62,8 +57,7 @@ export const add_UserStock =
       if (stockCollection_ID) {
         const res = await axios.put(
           `http://localhost:5000/api/stock/${stockCollection_ID}`,
-          formData,
-          config
+          formData
         );
 
         console.log(res.data.msg);
@@ -74,8 +68,7 @@ export const add_UserStock =
       } else {
         const res = await axios.post(
           "http://localhost:5000/api/stock/",
-          formData,
-          config
+          formData
         );
 
         console.log(res.data.msg);
@@ -95,13 +88,12 @@ export const add_UserStock =
 export const del_UserStock = (stock_id) => async (dispatch) => {
   try {
     const res = await axios.delete(
-      `http://localhost:5000/api/stock/${stock_id}`,
-      config
+      `http://localhost:5000/api/stock/${stock_id}`
     );
 
     dispatch({
       type: DEL_USERSTOCK,
-      payload: res.data,
+      payload: res.data.msg,
     });
   } catch (err) {
     dispatch({

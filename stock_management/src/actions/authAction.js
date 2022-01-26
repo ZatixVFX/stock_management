@@ -11,6 +11,12 @@ import {
   CLEAR_ERRORS,
 } from "../actions/types";
 
+const config = {
+  headers: {
+    "Content-Type": "application/json",
+  },
+};
+
 // Load User
 export const loadUser = () => async (dispatch) => {
   if (localStorage.token) {
@@ -33,11 +39,6 @@ export const loadUser = () => async (dispatch) => {
 
 // Register User
 export const register = (formData) => async (dispatch) => {
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
   try {
     const res = await axios.post(
       "http://localhost:5000/api/users",
@@ -49,8 +50,6 @@ export const register = (formData) => async (dispatch) => {
       type: REGISTER_SUCCESS,
       payload: res.data,
     });
-
-    loadUser();
   } catch (err) {
     dispatch({
       type: REGISTER_FAIL,
@@ -63,11 +62,6 @@ export const register = (formData) => async (dispatch) => {
 
 // Login User
 export const login = (formData) => async (dispatch) => {
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
   try {
     const res = await axios.post(
       "http://localhost:5000/api/auth",
@@ -79,7 +73,6 @@ export const login = (formData) => async (dispatch) => {
       type: LOGIN_SUCCESS,
       payload: res.data,
     });
-    loadUser();
   } catch (err) {
     console.log(err.response.data.msg);
     dispatch({

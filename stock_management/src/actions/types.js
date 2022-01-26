@@ -33,5 +33,8 @@ export const DEL_USERSTOCK = "DEL_USERSTOCK";
 export const CLEAR_USERSTOCK = "CLEAR_USERSTOCK";
 
 // Modal types
-export const SHOW_MODAL = "SHOW_MODAL";
-export const HIDE_MODAL = "HIDE_MODAL";
+export const SHOW_LOGIN_MODAL = "SHOW_LOGIN_MODAL";
+export const HIDE_LOGIN_MODAL = "HIDE_LOGIN_MODAL";
+
+export const SHOW_REGISTER_MODAL = "SHOW_REGISTER_MODAL";
+export const HIDE_REGISTER_MODAL = "HIDE_REGISTER_MODAL";

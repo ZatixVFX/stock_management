@@ -66,6 +66,7 @@ const Navbar = ({
                     className="nav-link"
                     data-bs-toggle="modal"
                     data-bs-target="#Register"
+                    onClick={() => showModal("register")}
                   >
                     Register
                   </button>
@@ -77,7 +78,7 @@ const Navbar = ({
                     className="nav-link"
                     data-bs-toggle="modal"
                     data-bs-target="#Login"
-                    onClick={() => showModal()}
+                    onClick={() => showModal("login")}
                   >
                     Sign in
                   </button>

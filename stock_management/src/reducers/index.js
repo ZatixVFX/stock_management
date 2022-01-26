@@ -6,6 +6,7 @@ import authReducer from "./authReducer";
 import alertsReducer from "./alertsReducer";
 import modalReducer from "./modalReducer";
 import stockReducer from "./stockReducer";
+import userStockReducer from "./userStockReducer";
 
 const persistConfig = {
   key: "root",
@@ -25,5 +26,8 @@ const rootReducer = combineReducers({
 
   // stock
   stock: stockReducer,
+
+  // user stock
+  user_stock: userStockReducer,
 });
 export default persistReducer(persistConfig, rootReducer);

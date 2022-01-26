@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 import {
   add_UserStock,
+  get_UserStock,
   stockAlert,
   clearErrors,
 } from "../../actions/stockAction";
@@ -12,14 +13,10 @@ const AddStock = ({
   stockAlert,
   clearErrors,
   add_UserStock,
+  get_UserStock,
   auth: { user },
-  stock: {
-    available_stock,
-    stock_alert,
-    user_stock,
-    error,
-    successfullyAddedStock_msg,
-  },
+  stock: { available_stock, stock_alert, error, successfullyAddedStock_msg },
+  user_stock,
 }) => {
   const date = new Date();
   const days = [
@@ -64,6 +61,7 @@ const AddStock = ({
       clearErrors();
     } else if (successfullyAddedStock_msg) {
       stockAlert(successfullyAddedStock_msg, "success");
+      get_UserStock();
       clearErrors();
     }
     // eslint-disable-next-line
@@ -82,7 +80,7 @@ const AddStock = ({
         items,
         price,
       },
-      user_stock._id ? user_stock._id : null
+      user_stock ? user_stock._id : null
     );
   };
 
@@ -157,17 +155,21 @@ AddStock.propTypes = {
   stockAlert: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   stock: PropTypes.object.isRequired,
+  user_stock: PropTypes.object.isRequired,
   add_UserStock: PropTypes.func.isRequired,
+  get_UserStock: PropTypes.func.isRequired,
   clearErrors: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
   stock: state.stock,
+  user_stock: state.user_stock,
 });
 
 export default connect(mapStateToProps, {
   add_UserStock,
+  get_UserStock,
   clearErrors,
   stockAlert,
 })(AddStock);

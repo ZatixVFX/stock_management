@@ -1,9 +1,7 @@
 import {
   GET_STOCK,
-  GET_USERSTOCK,
   ADD_USERSTOCK,
   DEL_USERSTOCK,
-  CLEAR_USERSTOCK,
   STOCK_ERROR,
   CLEAR_ERRORS,
   STOCK_ALERT,
@@ -12,10 +10,10 @@ import {
 
 const initialstate = {
   available_stock: [],
-  user_stock: null,
   stock_alert: [],
   error: null,
   successfullyAddedStock_msg: null,
+  successfullyRemovedStock_msg: null,
   loading: true,
 };
 
@@ -27,21 +25,15 @@ export default function stockReducer(state = initialstate, action) {
         available_stock: action.payload,
         loading: false,
       };
-    case GET_USERSTOCK:
-      return {
-        ...state,
-        user_stock: action.payload,
-        loading: false,
-      };
     case ADD_USERSTOCK:
       return {
         ...state,
         successfullyAddedStock_msg: action.payload,
       };
-    case CLEAR_USERSTOCK:
+    case DEL_USERSTOCK:
       return {
         ...state,
-        user_stock: null,
+        successfullyRemovedStock_msg: action.payload,
       };
     case STOCK_ALERT:
       return {
@@ -65,6 +57,7 @@ export default function stockReducer(state = initialstate, action) {
         ...state,
         error: null,
         successfullyAddedStock_msg: null,
+        successfullyRemovedStock_msg: null,
       };
     default:
       return state;
